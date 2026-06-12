@@ -1,0 +1,34 @@
+const mongoose = require("mongoose");
+
+const bookingSchema = new mongoose.Schema(
+  {
+    rideId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Ride",
+      required: true,
+    },
+    passengerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    seats: {
+      type: Number,
+      required: true,
+      min: 1,
+      default: 1,
+    },
+    seatNumbers: {
+      type: [String],
+      default: [],
+    },
+    status: {
+      type: String,
+      enum: ["pending_payment", "confirmed", "cancelled"],
+      default: "pending_payment",
+    },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Booking", bookingSchema);
